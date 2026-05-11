@@ -100,4 +100,10 @@ jobs:
                     ${{ secrets.DOCKERHUB_USERNAME }}/solar-system:${{ github.sha }}
 
                 wget -q -O - 127.0.0.1:3000/live | grep live
-                
+
+            - name: Docker Image Push
+              uses: docker/build-push-action@v6
+              with:
+                context: .
+                push: true
+                tags: ${{ secrets.DOCKERHUB_USERNAME }}/solar-system:${{ github.sha }}
