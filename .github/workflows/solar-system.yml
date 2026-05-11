@@ -15,16 +15,21 @@ env:
 jobs:
     build:
         name: build and test
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.os-version }}
+
+        strategy:
+            matrix:
+                node-version: [18,19,20]
+                os-version: [ubuntu-latest, windows-latest]
 
         steps:
             - name: clone repo
               uses: actions/checkout@v5
 
-            - name: setup node
+            - name: setup node ${{ matrix.node-version }} on ${{ matrix.os-version }}
               uses: actions/setup-node@v5
               with:
-                node-version: '18'
+                node-version: ${{ matrix.node-version}}
 
             - name: install dependencies
               run: npm install
