@@ -21,6 +21,9 @@ jobs:
             matrix:
                 node-version: [18,19,20]
                 os-version: [ubuntu-latest, windows-latest]
+                exclude:
+                    - node-version: 18
+                      os-version: macos-latest
 
         steps:
             - name: clone repo
@@ -42,3 +45,14 @@ jobs:
               with:
                 name: mocha-test-results
                 path: test-results.xml
+                retention-days: 2
+
+            - name: code coverage
+              run: npm run coverage
+
+            - name: upload code coverage
+              uses: actions/upload-artifact@v5
+              with:
+                name: code-coverage
+                path: coverage
+                retention-days: 2
