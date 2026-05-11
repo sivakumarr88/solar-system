@@ -17,22 +17,22 @@ jobs:
         name: build and test
         runs-on: ${{ matrix.os-version }}
 
-        strategy:
-            matrix:
-                node-version: [18,19,20]
-                os-version: [ubuntu-latest, windows-latest]
-                exclude:
-                    - node-version: 18
-                      os-version: macos-latest
+        # strategy:
+        #     matrix:
+        #         node-version: [18,19,20]
+        #         os-version: [ubuntu-latest, windows-latest]
+        #         exclude:
+        #             - node-version: 18
+        #               os-version: macos-latest
 
         steps:
             - name: clone repo
               uses: actions/checkout@v5
 
-            - name: setup node ${{ matrix.node-version }} on ${{ matrix.os-version }}
+            - name: setup node #${{ matrix.node-version }} on ${{ matrix.os-version }}
               uses: actions/setup-node@v5
               with:
-                node-version: ${{ matrix.node-version}}
+                node-version: '18' #${{ matrix.node-version}}
 
             - name: install dependencies
               run: npm install
