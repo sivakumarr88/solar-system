@@ -66,4 +66,18 @@ jobs:
                 retention-days: 2
               # if: success()
               if: steps.code-coverage.outcome == 'success'
-              
+
+
+    docker:
+        name: build and test docker image
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: clone repo
+              uses: actions/checkout@v5
+
+            - name: DockerHub login
+              uses: docker/login-action@v2
+              with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_PASSWORD }}
