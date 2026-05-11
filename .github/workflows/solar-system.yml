@@ -48,6 +48,7 @@ jobs:
                 retention-days: 2
 
             - name: code coverage
+              id: code-coverage
               run: npm run coverage
               continue-on-error: true
 
@@ -57,4 +58,5 @@ jobs:
                 name: code-coverage
                 path: coverage
                 retention-days: 2
-              if: success()
+              # if: success()
+              if: steps.code-coverage.outcome == 'success'
