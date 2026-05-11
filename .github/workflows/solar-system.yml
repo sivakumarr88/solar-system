@@ -81,4 +81,23 @@ jobs:
               with:
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+            - name: Docker build for testing
+              uses: docker/build-push-action@v6
+              with:
+                context: .
+                push: false
+                tags: ${{ secrets.DOCKERHUB_USERNAME }}/solar-system:${{ github.sha }}
+
+            - name: Docker Image Testing
+              run: |
+                docker images
+                docker run --name solar-system-app -d \
+                    -p 3000:3000 \
+                    -e MONGO_URI=$MONGO_URI \
+                    -e MONGO_USERNAME=$MONGO_USERNAME \
+                    -e MONGO_PASSWORD=$MONGO_PASSWORD \
+                    ${{ secrets.DOCKERHUB_USERNAME }}/solar-system:${{ github.sha }}
+
+                wget -q -O - 127.0.0.1:3000/live | grep live
                 
