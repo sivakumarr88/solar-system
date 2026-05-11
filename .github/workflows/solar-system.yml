@@ -57,4 +57,4 @@ jobs:
                 name: code-coverage
                 path: coverage
                 retention-days: 2
-              if: failure()
+              if: success()
